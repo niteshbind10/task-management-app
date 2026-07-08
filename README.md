@@ -171,6 +171,5 @@ To seed the database manually, run `npm run seed` in the `backend` directory.
 
 ---
 
-## 6. Screenshots & Demos
-
-*(Capturing screenshots and demo video is currently pending completion and will be uploaded here by the user).*
+## 6. Demo Video Link
+https://jam.dev/c/fcac462f-0078-4048-a3b9-f1bfa3ee3801
