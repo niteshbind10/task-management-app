@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: task-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - task-network
+    restart: always
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: task-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongodb:27017/task_management
+      - JWT_SECRET_KEY=super_secret_task_management_key_123456789
+      - JWT_EXPIRES_IN=1h
+      - JWT_REMEMBER_ME_EXPIRES_IN=7d
+      - CORS_ORIGIN=http://localhost:8080
+      - NODE_ENV=production
+    depends_on:
+      - mongodb
+    networks:
+      - task-network
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: task-frontend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+    networks:
+      - task-network
+    restart: always
+
+volumes:
+  mongo-data:
+
+networks:
+  task-network:
+    driver: bridge
