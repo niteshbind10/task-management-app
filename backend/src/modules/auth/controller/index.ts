@@ -30,7 +30,7 @@ export const login = async (
     res.cookie("token", token, {
       httpOnly: true,
       secure: isProduction,
-      sameSite: "lax",
+      sameSite: isProduction ? "none" : "lax",
       maxAge,
     });
 
@@ -46,9 +46,11 @@ export const logout = async (
   next: NextFunction
 ): Promise<void> => {
   try {
+    const isProduction = process.env.NODE_ENV === "production";
     res.clearCookie("token", {
       httpOnly: true,
-      sameSite: "lax",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
     });
     sendSuccess(res, "Logged out successfully");
   } catch (error) {
