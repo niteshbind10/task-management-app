@@ -9,6 +9,11 @@ jobs:
   lint-and-test:
     name: Run Lint and Test Checks
     runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
