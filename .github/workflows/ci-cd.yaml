@@ -24,6 +24,9 @@ jobs:
           node-version: 18
 
       - name: Install & Run Backend Tests
+        env:
+          JWT_SECRET_KEY: test_secret_key_for_testing_purposes_only
+          NODE_ENV: test
         run: |
           cd backend
           npm ci
